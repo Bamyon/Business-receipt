@@ -1,0 +1,58 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---- Admins (business owners) ----
+    match /admins/{adminId} {
+      allow read, update: if request.auth != null && request.auth.uid == adminId;
+      allow create: if request.auth != null && request.auth.uid == adminId;
+    }
+
+    // ---- Products (public checkout pages read these with no auth) ----
+    match /products/{productId} {
+      allow read: if true;
+      allow create: if request.auth != null && request.resource.data.adminId == request.auth.uid;
+
+      // Owner can edit anything. Guests (checkout flow) may ONLY bump the
+      // joint-contribution running total when they submit a payment.
+      allow update: if (request.auth != null && resource.data.adminId == request.auth.uid)
+        || (request.auth == null &&
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['currentAmount', 'contributorCount']));
+
+      allow delete: if request.auth != null && resource.data.adminId == request.auth.uid;
+
+      // Per-product BMZ ID counter — written inside a transaction during guest checkout.
+      // ⚠️ Public write. Add Firebase App Check before launch to stop spam/abuse.
+      match /meta/{doc} {
+        allow read, write: if true;
+      }
+    }
+
+    // ---- Payments (BMZ ID is the document ID; guest checkout creates these) ----
+    match /payments/{bmzId} {
+      allow create: if true;
+      allow read: if true; // BMZ ID lookup is public by design
+
+      // Guests may only attach proof-of-payment while status is "needs_upload".
+      // Everything else (approve/reject/refund/request-proof) requires the
+      // authenticated business owner.
+      allow update: if request.auth != null
+        || (resource.data.status == 'needs_upload' &&
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['proofUrl', 'status']) &&
+            request.resource.data.status == 'pending');
+    }
+
+    // ---- Lost BMZ ID requests ----
+    match /lostIdRequests/{requestId} {
+      allow create: if true;
+      allow read: if request.auth != null && resource.data.adminId == request.auth.uid;
+    }
+  }
+}
+
+// ⚠️ These are starter rules for a hackathon MVP, not a hardened production
+// ruleset. Before real money moves through this app:
+//   1. Turn on Firebase App Check to stop scripted abuse of public writes.
+//   2. Rate-limit payment/product-counter writes (Cloud Functions or App Check).
+//   3. Consider moving "approve payment" into a Cloud Function so stock
+//      decrements and status changes happen atomically server-side.

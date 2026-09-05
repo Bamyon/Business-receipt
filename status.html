@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Status — MyPayment by Bamyon</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: { primary: '#0F6B4C', primarydark: '#084C36', accent: '#F5A623' },
+    fontFamily: { display: ['DM Sans','sans-serif'], sans: ['Inter','sans-serif'] }
+  } } }
+</script>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-[var(--bg)] min-h-screen">
+<div id="app-root"></div>
+
+<!-- Receipt modal (opened from the "View / print receipt" action) -->
+<div id="receipt-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4 overflow-y-auto">
+  <div data-modal-panel class="scale-95 opacity-0 bg-white rounded-2xl max-w-md w-full my-8">
+    <div id="receipt-body"></div>
+    <div class="flex gap-2 p-6 pt-0">
+      <button data-close-modal="receipt-modal" class="flex-1 py-2.5 rounded-xl border border-[var(--border)] text-sm font-medium">Close</button>
+      <button id="receipt-print-btn" class="flex-1 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold">Print / Download</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="hidden"></div>
+<script type="module" src="/js/status-page.js"></script>
+<script type="module">
+  import { closeModal } from "/js/ui.js";
+  document.querySelectorAll("[data-close-modal]").forEach(b => b.addEventListener("click", () => closeModal(b.dataset.closeModal)));
+  document.getElementById("receipt-print-btn")?.addEventListener("click", () => window.print());
+</script>
+</body>
+</html>
