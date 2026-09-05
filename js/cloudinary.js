@@ -4,7 +4,7 @@
 // Cloudinary Dashboard → Settings → Upload → Upload presets → Add upload preset → Signing Mode: Unsigned
 
 const CLOUDINARY_CLOUD_NAME = "xtrrhfj7";
-const CLOUDINARY_UPLOAD_PRESET = "REPLACE_WITH_YOUR_UNSIGNED_PRESET"; // <-- set this before launch
+const CLOUDINARY_UPLOAD_PRESET = "bamyon"; // <-- set this before launch
 
 const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
 
