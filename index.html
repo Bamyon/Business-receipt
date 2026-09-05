@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyPayment by Bamyon — Payments made simple. Business made smarter.</title>
+<meta name="description" content="Collect payments, manage orders, and keep customers informed — all in one place. Built for Nigerian small businesses, creators, and event organizers.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/public/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      colors: { primary: '#0F6B4C', primarydark: '#084C36', accent: '#F5A623' },
+      fontFamily: { display: ['DM Sans','sans-serif'], sans: ['Inter','sans-serif'] }
+    } }
+  }
+</script>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-[var(--bg)] text-[var(--text)]">
+
+<nav class="sticky top-0 z-40 bg-[var(--bg)]/90 backdrop-blur border-b border-[var(--border)]">
+  <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2.5">
+      <img src="/public/images/bamyon-mark.png" alt="" class="w-8 h-8 rounded-lg">
+      <span class="font-display font-bold text-lg tracking-tight">MyPayment</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+      <a href="#how-it-works" class="hover:text-slate-900">How it works</a>
+      <a href="#features" class="hover:text-slate-900">Features</a>
+      <a href="#check-status" class="hover:text-slate-900">Check payment status</a>
+    </div>
+    <div id="nav-auth-area" class="hidden md:flex items-center gap-2"></div>
+    <button id="mobile-menu-btn" class="md:hidden w-9 h-9 flex items-center justify-center rounded-lg border border-[var(--border)]">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden border-t border-[var(--border)] px-5 py-4 space-y-3 text-sm font-medium">
+    <a href="#how-it-works" class="block">How it works</a>
+    <a href="#features" class="block">Features</a>
+    <a href="#check-status" class="block">Check payment status</a>
+    <div class="flex gap-2 pt-2">
+      <a href="/login.html" class="flex-1 text-center px-4 py-2 rounded-xl border border-[var(--border)]">Log in</a>
+      <a href="/signup.html" class="flex-1 text-center px-4 py-2 rounded-xl bg-primary text-white">Get started</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="max-w-6xl mx-auto px-5 pt-14 pb-20 grid lg:grid-cols-2 gap-14 items-center">
+  <div>
+    <h1 class="font-display text-4xl sm:text-5xl font-bold leading-[1.08] tracking-tight text-slate-900">
+      Collect payments.<br>Track orders.<br>Grow your business.
+    </h1>
+    <p class="mt-5 text-lg text-[var(--muted)] max-w-md leading-relaxed">
+      MyPayment helps small businesses, creators, event organizers, and student entrepreneurs collect payments, manage orders, and keep customers informed — all in one place.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/signup.html" class="px-6 py-3.5 rounded-xl bg-primary text-white font-semibold hover:bg-primarydark transition">Get Started</a>
+      <a href="#how-it-works" class="px-6 py-3.5 rounded-xl border border-[var(--border)] font-semibold text-slate-700 hover:border-primary/40 transition">See how it works</a>
+    </div>
+    <p class="mt-6 text-sm text-[var(--muted)]">Built for businesses that want to look professional without complicated payment systems.</p>
+  </div>
+
+  <div class="relative">
+    <div class="rounded-3xl bg-white border border-[var(--border)] shadow-xl shadow-emerald-900/5 p-5 sm:p-6">
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-sm font-semibold text-slate-800">Payment queue</span>
+        <span class="text-xs px-2 py-1 rounded-full bg-emerald-50 text-primary font-medium">Live</span>
+      </div>
+      <div class="space-y-2.5">
+        <div class="flex items-center justify-between bg-emerald-50 border border-emerald-100 rounded-xl px-3.5 py-3">
+          <div>
+            <div class="text-sm font-semibold text-slate-800">Amaka O. · Ankara Set</div>
+            <div class="text-xs text-slate-500 font-mono">BMZ-ANKARA-014</div>
+          </div>
+          <span class="text-xs font-semibold px-2 py-1 rounded-full bg-emerald-600 text-white">Approved</span>
+        </div>
+        <div class="flex items-center justify-between bg-white border border-[var(--border)] rounded-xl px-3.5 py-3">
+          <div>
+            <div class="text-sm font-semibold text-slate-800">Tunde A. · Dept. Dinner</div>
+            <div class="text-xs text-slate-500 font-mono">BMZ-DINNER-021</div>
+          </div>
+          <span class="text-xs font-semibold px-2 py-1 rounded-full bg-amber-100 text-amber-700">Pending</span>
+        </div>
+        <div class="flex items-center justify-between bg-white border border-[var(--border)] rounded-xl px-3.5 py-3">
+          <div>
+            <div class="text-sm font-semibold text-slate-800">Chiamaka E. · Jollof Pack</div>
+            <div class="text-xs text-slate-500 font-mono">BMZ-JOLLOF-007</div>
+          </div>
+          <span class="text-xs font-semibold px-2 py-1 rounded-full bg-orange-100 text-orange-700">Needs Upload</span>
+        </div>
+      </div>
+      <div class="mt-4 pt-4 border-t border-dashed border-[var(--border)] flex items-center justify-between text-sm">
+        <span class="text-slate-500">WhatsApp confirmation sent to Amaka O.</span>
+        <span class="text-primary font-semibold">✓</span>
+      </div>
+    </div>
+    <div class="absolute -bottom-5 -left-5 hidden sm:block bg-white border border-[var(--border)] rounded-2xl shadow-lg px-4 py-3">
+      <div class="text-xs text-slate-400">Departmental Dinner Fund</div>
+      <div class="text-sm font-bold text-slate-800">₦320,000 <span class="text-primary font-semibold text-xs">· 64% funded</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" class="max-w-6xl mx-auto px-5 py-20 border-t border-[var(--border)]">
+  <h2 class="font-display text-3xl font-bold text-slate-900 max-w-lg">From payment link to receipt, in four steps</h2>
+  <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div class="rounded-2xl border border-[var(--border)] bg-white p-5">
+      <div class="font-display text-3xl font-bold text-primary/25 mb-3">1</div>
+      <div class="font-semibold text-slate-800 mb-1">Create payment link</div>
+      <p class="text-sm text-[var(--muted)]">Set a price, add a photo, and get a shareable link in seconds.</p>
+    </div>
+    <div class="rounded-2xl border border-[var(--border)] bg-white p-5">
+      <div class="font-display text-3xl font-bold text-primary/25 mb-3">2</div>
+      <div class="font-semibold text-slate-800 mb-1">Customer pays</div>
+      <p class="text-sm text-[var(--muted)]">They fill in their details and pay via WhatsApp or bank transfer.</p>
+    </div>
+    <div class="rounded-2xl border border-[var(--border)] bg-white p-5">
+      <div class="font-display text-3xl font-bold text-primary/25 mb-3">3</div>
+      <div class="font-semibold text-slate-800 mb-1">You confirm</div>
+      <p class="text-sm text-[var(--muted)]">Review proof of payment and approve it from your queue.</p>
+    </div>
+    <div class="rounded-2xl border border-[var(--border)] bg-white p-5">
+      <div class="font-display text-3xl font-bold text-primary/25 mb-3">4</div>
+      <div class="font-semibold text-slate-800 mb-1">Customer gets receipt</div>
+      <p class="text-sm text-[var(--muted)]">A WhatsApp confirmation and downloadable receipt, automatically.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="max-w-6xl mx-auto px-5 py-20 border-t border-[var(--border)]">
+  <h2 class="font-display text-3xl font-bold text-slate-900 max-w-lg">Everything a small business needs to get paid</h2>
+  <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8">
+    <div class="border-l-2 border-primary pl-4">
+      <div class="font-semibold text-slate-800 mb-1">Payment Links</div>
+      <p class="text-sm text-[var(--muted)]">Create a shareable payment page for any product, service, event, or contribution.</p>
+    </div>
+    <div class="border-l-2 border-accent pl-4">
+      <div class="font-semibold text-slate-800 mb-1">Order Management</div>
+      <p class="text-sm text-[var(--muted)]">See every customer order in one organized queue.</p>
+    </div>
+    <div class="border-l-2 border-primary pl-4">
+      <div class="font-semibold text-slate-800 mb-1">BMZ Payment IDs</div>
+      <p class="text-sm text-[var(--muted)]">Every payment receives a unique, trackable ID.</p>
+    </div>
+    <div class="border-l-2 border-accent pl-4">
+      <div class="font-semibold text-slate-800 mb-1">WhatsApp Confirmations</div>
+      <p class="text-sm text-[var(--muted)]">Keep customers informed through WhatsApp, automatically.</p>
+    </div>
+    <div class="border-l-2 border-primary pl-4">
+      <div class="font-semibold text-slate-800 mb-1">Digital Receipts</div>
+      <p class="text-sm text-[var(--muted)]">Generate professional receipts after payment approval.</p>
+    </div>
+    <div class="border-l-2 border-accent pl-4">
+      <div class="font-semibold text-slate-800 mb-1">Customer Management</div>
+      <p class="text-sm text-[var(--muted)]">Keep track of customers and their payment history.</p>
+    </div>
+    <div class="border-l-2 border-primary pl-4">
+      <div class="font-semibold text-slate-800 mb-1">Product Management</div>
+      <p class="text-sm text-[var(--muted)]">Create products with images, prices, descriptions, and stock limits.</p>
+    </div>
+    <div class="border-l-2 border-accent pl-4">
+      <div class="font-semibold text-slate-800 mb-1">Contribution Tracking</div>
+      <p class="text-sm text-[var(--muted)]">Track group payments toward a shared target amount.</p>
+    </div>
+    <div class="border-l-2 border-primary pl-4">
+      <div class="font-semibold text-slate-800 mb-1">Analytics</div>
+      <p class="text-sm text-[var(--muted)]">Revenue, completed orders, and top products at a glance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STATUS LOOKUP -->
+<section id="check-status" class="max-w-6xl mx-auto px-5 py-20 border-t border-[var(--border)]">
+  <div class="rounded-3xl bg-white border border-[var(--border)] p-8 sm:p-12 grid md:grid-cols-2 gap-8 items-center">
+    <div>
+      <h2 class="font-display text-2xl font-bold text-slate-900">Check your payment status</h2>
+      <p class="text-[var(--muted)] mt-2">Already paid? Enter your BMZ ID to see where things stand.</p>
+    </div>
+    <form id="status-lookup-form" class="flex gap-2">
+      <input name="bmz" placeholder="e.g. BMZ-ANKARA-014" class="flex-1">
+      <button class="px-5 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primarydark transition shrink-0">Check Status</button>
+    </form>
+  </div>
+</section>
+
+<footer class="border-t border-[var(--border)]">
+  <div class="max-w-6xl mx-auto px-5 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-2.5">
+      <img src="/public/images/bamyon-mark.png" alt="" class="w-6 h-6 rounded-md">
+      <span class="text-sm text-[var(--muted)]">MyPayment by Bamyon</span>
+    </div>
+    <p class="text-sm text-[var(--muted)]">Payments made simple. Business made smarter.</p>
+  </div>
+</footer>
+
+<div id="toast" class="hidden"></div>
+<script type="module" src="/js/landing.js"></script>
+</body>
+</html>

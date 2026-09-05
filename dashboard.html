@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — MyPayment by Bamyon</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: { primary: '#0F6B4C', primarydark: '#084C36', accent: '#F5A623' },
+    fontFamily: { display: ['DM Sans','sans-serif'], sans: ['Inter','sans-serif'] }
+  } } }
+</script>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-[var(--bg)] min-h-screen">
+
+<div class="border-b border-[var(--border)] bg-white">
+  <div class="px-5 h-16 flex items-center justify-between max-w-[1400px] mx-auto">
+    <a href="/" class="flex items-center gap-2.5">
+      <img src="/public/images/bamyon-mark.png" alt="" class="w-8 h-8 rounded-lg">
+      <span class="font-display font-bold text-lg hidden sm:inline">MyPayment</span>
+    </a>
+    <div class="flex items-center gap-3">
+      <span id="topbar-business-name" class="text-sm font-medium text-slate-600 hidden sm:inline"></span>
+      <div id="topbar-avatar" class="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold"></div>
+      <button id="logout-btn" class="text-sm font-medium text-slate-500 hover:text-slate-800 px-3 py-2 rounded-lg border border-[var(--border)]">Log out</button>
+    </div>
+  </div>
+</div>
+
+<div id="app-root"></div>
+
+<!-- ONBOARDING MODAL -->
+<div id="onboarding-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4">
+  <div data-modal-panel class="scale-95 opacity-0 bg-white rounded-2xl p-8 max-w-sm w-full text-center">
+    <div class="text-3xl mb-3">👋</div>
+    <h3 class="font-display font-bold text-xl text-slate-900 mb-1">Welcome to MyPayment</h3>
+    <p class="text-sm text-[var(--muted)] mb-6">Let's set up your first payment link.</p>
+    <button id="onboarding-create-link" class="w-full py-3 rounded-xl bg-primary text-white font-semibold mb-2">Create My First Payment Link</button>
+    <button id="onboarding-explore" class="w-full py-3 rounded-xl border border-[var(--border)] font-medium text-slate-600">Explore Dashboard</button>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div id="product-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4 overflow-y-auto">
+  <div data-modal-panel class="scale-95 opacity-0 bg-white rounded-2xl p-6 sm:p-8 max-w-lg w-full my-8">
+    <div class="flex items-center justify-between mb-5">
+      <h3 id="product-modal-title" class="font-display font-bold text-xl text-slate-900">Create product</h3>
+      <button data-close-modal="product-modal" class="w-8 h-8 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-400">✕</button>
+    </div>
+    <form id="product-form" class="space-y-4">
+      <input type="hidden" name="imageUrl">
+      <div>
+        <label class="text-sm font-medium block mb-1">Product image</label>
+        <div id="product-image-preview" class="aspect-video rounded-xl bg-slate-50 border border-dashed border-[var(--border)] mb-2 overflow-hidden"></div>
+        <input type="file" id="product-image-input" accept="image/*">
+      </div>
+      <div>
+        <label class="text-sm font-medium block mb-1">Product name</label>
+        <input required name="name">
+      </div>
+      <div>
+        <label class="text-sm font-medium block mb-1">Description</label>
+        <textarea name="description" rows="2"></textarea>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-sm font-medium block mb-1">Price (₦)</label>
+          <input required type="number" min="0" name="price">
+        </div>
+        <div>
+          <label class="text-sm font-medium block mb-1">Stock limit <span class="text-slate-400">(optional)</span></label>
+          <input type="number" min="0" name="stockLimit">
+        </div>
+      </div>
+      <div>
+        <label class="text-sm font-medium block mb-1">Payment methods</label>
+        <div class="flex gap-4 text-sm">
+          <label class="flex items-center gap-2"><input type="checkbox" name="paymentModes" value="whatsapp" checked> WhatsApp</label>
+          <label class="flex items-center gap-2"><input type="checkbox" name="paymentModes" value="manual" checked> Manual Transfer</label>
+        </div>
+      </div>
+      <label class="flex items-center gap-2 text-sm font-medium">
+        <input type="checkbox" name="isJointContribution"> Enable joint contribution
+      </label>
+      <div id="joint-fields" class="hidden">
+        <label class="text-sm font-medium block mb-1">Target amount (₦)</label>
+        <input type="number" min="0" name="targetAmount">
+      </div>
+      <label class="flex items-center gap-2 text-sm font-medium">
+        <input type="checkbox" name="crossSellEnabled"> Show as cross-sell on other products
+      </label>
+      <button type="submit" class="w-full py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primarydark transition">Save product</button>
+    </form>
+  </div>
+</div>
+
+<!-- SHARE MODAL -->
+<div id="share-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4">
+  <div data-modal-panel class="scale-95 opacity-0 bg-white rounded-2xl p-6 sm:p-8 max-w-sm w-full text-center">
+    <div class="text-3xl mb-2">🎉</div>
+    <h3 class="font-display font-bold text-xl text-slate-900 mb-1">Your payment link is ready</h3>
+    <input id="share-link-input" readonly class="mt-4 mb-3 text-center text-sm">
+    <div class="grid grid-cols-1 gap-2">
+      <button id="share-copy" class="py-2.5 rounded-xl bg-slate-900 text-white text-sm font-semibold">Copy Link</button>
+      <a id="share-whatsapp" target="_blank" class="py-2.5 rounded-xl bg-emerald-600 text-white text-sm font-semibold">Share on WhatsApp</a>
+      <a id="share-open" target="_blank" class="py-2.5 rounded-xl border border-[var(--border)] text-sm font-medium">Open Link</a>
+    </div>
+    <button data-close-modal="share-modal" class="mt-4 text-sm text-slate-400">Close</button>
+  </div>
+</div>
+
+<!-- PAYMENT DETAIL MODAL -->
+<div id="payment-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4 overflow-y-auto">
+  <div data-modal-panel class="scale-95 opacity-0 bg-white rounded-2xl p-6 sm:p-8 max-w-lg w-full my-8">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="font-display font-bold text-xl text-slate-900">Payment details</h3>
+      <button data-close-modal="payment-modal" class="w-8 h-8 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-400">✕</button>
+    </div>
+    <div id="payment-modal-body"></div>
+  </div>
+</div>
+
+<!-- RECEIPT MODAL -->
+<div id="receipt-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4 overflow-y-auto">
+  <div data-modal-panel class="scale-95 opacity-0 bg-white rounded-2xl max-w-md w-full my-8">
+    <div id="receipt-body"></div>
+    <div class="flex gap-2 p-6 pt-0">
+      <button data-close-modal="receipt-modal" class="flex-1 py-2.5 rounded-xl border border-[var(--border)] text-sm font-medium">Close</button>
+      <button id="receipt-print-btn" class="flex-1 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold">Print / Download</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="hidden"></div>
+<script type="module" src="/js/dashboard-page.js"></script>
+</body>
+</html>
